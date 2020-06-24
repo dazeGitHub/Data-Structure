@@ -86,7 +86,7 @@ static void CreateTree(BiThrTree* T, FILE* fp);
  *
  * 中序全线索化的内部实现
  */
-static void InTheading(BiThrTree p);
+static void InThreading(BiThrTree p);
 
 
 /*━━━━━━━━━━━━━━━━━━━━━━ 辅助函数 ━━━━━━━━━━━━━━━━━━━━━━*/

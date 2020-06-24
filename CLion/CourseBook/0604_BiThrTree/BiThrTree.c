@@ -71,8 +71,8 @@ Status InOrderThreading(BiThrTree* Thrt, BiThrTree T) {
     } else {
         (*Thrt)->lchild = T;    // 指向二叉树头结点
         pre = *Thrt;            // 记录前驱信息，初始化为线索二叉树头结点
-        
-        InTheading(T);          // 中序遍历，以进行中序线索化
+
+        InThreading(T);          // 中序遍历，以进行中序线索化
         
         pre->rchild = *Thrt;    // 最后一个结点指回线索二叉树头结点
         pre->RTag = Thread;     // 最后一个结点线索化
@@ -153,12 +153,12 @@ static void CreateTree(BiThrTree* T, FILE* fp) {
  *
  * 中序全线索化的内部实现
  */
-static void InTheading(BiThrTree p) {
+static void InThreading(BiThrTree p) {
     if(p == NULL) {
         return;
     }
-    
-    InTheading(p->lchild);  // 线索化左子树
+
+    InThreading(p->lchild);  // 线索化左子树
     
     // 如果当前结点的左子树为空，则需要建立前驱线索
     if(!p->lchild) {
@@ -189,8 +189,8 @@ static void InTheading(BiThrTree p) {
     }
     
     pre = p;                // pre向前挪一步
-    
-    InTheading(p->rchild);  // 线索化右子树
+
+    InThreading(p->rchild);  // 线索化右子树
 }
 
 
