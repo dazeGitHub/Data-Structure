@@ -62,4 +62,9 @@ Status EnQueue(LinkQueue* Q, QElemType e);
  */
 Status DeQueue(LinkQueue* Q, QElemType* e);
 
+/*
+ * 销毁队列
+ */
+Status DestroyQueue(LinkQueue *Q);
+
 #endif

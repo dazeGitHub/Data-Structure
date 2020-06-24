@@ -195,9 +195,9 @@ TElemType Root(BiTriTree T) {
 }
 
 /*
- * 双亲
+ * 双亲(父亲)
  *
- * 返回二叉树中结点e的双亲结点。
+ * 返回二叉树中结点e的双亲结点(直接父结点)。
  */
 TElemType Parent(BiTriTree T, TElemType e) {
     BiTriTree p;

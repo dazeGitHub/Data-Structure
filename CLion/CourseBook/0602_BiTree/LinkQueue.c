@@ -16,18 +16,18 @@
  *【注】
  * 这里的队列带有头结点
  */
-Status InitQueue(LinkQueue* Q) {
-    if(Q == NULL) {
+Status InitQueue(LinkQueue *Q) {
+    if (Q == NULL) {
         return ERROR;
     }
-    
+
     (*Q).front = (*Q).rear = (QueuePtr) malloc(sizeof(QNode));
-    if(!(*Q).front) {
+    if (!(*Q).front) {
         exit(OVERFLOW);
     }
-    
+
     (*Q).front->next = NULL;
-    
+
     return OK;
 }
 
@@ -41,7 +41,7 @@ Status InitQueue(LinkQueue* Q) {
  * FALSE: 链队不为空
  */
 Status QueueEmpty(LinkQueue Q) {
-    if(Q.front == Q.rear) {
+    if (Q.front == Q.rear) {
         return TRUE;
     } else {
         return FALSE;
@@ -53,24 +53,24 @@ Status QueueEmpty(LinkQueue Q) {
  *
  * 将元素e添加到队列尾部。
  */
-Status EnQueue(LinkQueue* Q, QElemType e) {
+Status EnQueue(LinkQueue *Q, QElemType e) {
     QueuePtr p;
-    
-    if(Q == NULL || (*Q).front == NULL) {
+
+    if (Q == NULL || (*Q).front == NULL) {
         return ERROR;
     }
-    
+
     p = (QueuePtr) malloc(sizeof(QNode));
-    if(!p) {
+    if (!p) {
         exit(OVERFLOW);
     }
-    
+
     p->data = e;
     p->next = NULL;
-    
+
     (*Q).rear->next = p;
     (*Q).rear = p;
-    
+
     return OK;
 }
 
@@ -79,23 +79,33 @@ Status EnQueue(LinkQueue* Q, QElemType e) {
  *
  * 移除队列头部的元素，将其存储到e中。
  */
-Status DeQueue(LinkQueue* Q, QElemType* e) {
+Status DeQueue(LinkQueue *Q, QElemType *e) {
     QueuePtr p;
-    
-    if(Q == NULL || (*Q).front == NULL || (*Q).front == (*Q).rear) {
+
+    if (Q == NULL || (*Q).front == NULL || (*Q).front == (*Q).rear) {
         return ERROR;
     }
-    
+
     p = (*Q).front->next;
     *e = p->data;
-    
+
     (*Q).front->next = p->next;
-    if((*Q).rear == p) {
+    if ((*Q).rear == p) {
         (*Q).rear = (*Q).front;
     }
-    
+
     free(p);
-    
+
+    return OK;
+}
+
+//销毁队列 Q
+Status DestroyQueue(LinkQueue *Q) {
+    while (Q->front) {
+        Q->rear = Q->front->next;
+        free(Q->front);
+        Q->front = Q->rear;
+    }
     return OK;
 }
 

@@ -13,13 +13,13 @@
  *
  * 构造空二叉树。
  */
-Status InitBiTree(BiTree* T) {
-    if(T == NULL) {
+Status InitBiTree(BiTree *T) {
+    if (T == NULL) {
         return ERROR;
     }
-    
+
     *T = NULL;
-    
+
     return OK;
 }
 
@@ -32,7 +32,7 @@ Status InitBiTree(BiTree* T) {
  * 二叉树的二叉链表存储结构可以销毁，但是没必要销毁。
  * 因为二叉链表销毁后的状态与置空后的状态是一致的。
  */
-Status DestroyBiTree(BiTree* T) {
+Status DestroyBiTree(BiTree *T) {
     // 无需销毁，使用置空就可以
     return ERROR;
 }
@@ -42,25 +42,25 @@ Status DestroyBiTree(BiTree* T) {
  *
  * 清理二叉树中的数据，使其成为空树。
  */
-Status ClearBiTree(BiTree* T) {
-    if(T == NULL) {
+Status ClearBiTree(BiTree *T) {
+    if (T == NULL) {
         return ERROR;
     }
-    
+
     // 在*T不为空时进行递归清理
-    if(*T) {
-        if((*T)->lchild!=NULL) {
+    if (*T) {
+        if ((*T)->lchild != NULL) {
             ClearBiTree(&((*T)->lchild));
         }
-        
-        if((*T)->rchild!=NULL) {
+
+        if ((*T)->rchild != NULL) {
             ClearBiTree(&((*T)->rchild));
         }
-        
+
         free(*T);
         *T = NULL;
     }
-    
+
     return OK;
 }
 
@@ -82,26 +82,26 @@ Status ClearBiTree(BiTree* T) {
  * 如果需要从控制台读取数据，则path为NULL或者为空串，
  * 如果需要从文件中读取数据，则需要在path中填写文件名信息。
  */
-Status CreateBiTree(BiTree* T, char* path) {
-    FILE* fp;
+Status CreateBiTree(BiTree *T, char *path) {
+    FILE *fp;
     int readFromConsole;    // 是否从控制台读取数据
-    
+
     // 如果没有文件路径信息，则从控制台读取输入
     readFromConsole = path == NULL || strcmp(path, "") == 0;
-    
-    if(readFromConsole) {
+
+    if (readFromConsole) {
         printf("请输入二叉树的先序序列，如果没有子结点，使用^代替：");
         CreateTree(T, NULL);
     } else {
         // 打开文件，准备读取测试数据
         fp = fopen(path, "r");
-        if(fp == NULL) {
+        if (fp == NULL) {
             return ERROR;
         }
         CreateTree(T, fp);
         fclose(fp);
     }
-    
+
     return OK;
 }
 
@@ -121,13 +121,13 @@ Status BiTreeEmpty(BiTree T) {
  */
 int BiTreeDepth(BiTree T) {
     int LD, RD;
-    
-    if(T == NULL) {
+
+    if (T == NULL) {
         return 0;                       // 空树深度为0
     } else {
         LD = BiTreeDepth(T->lchild);    // 求左子树深度
         RD = BiTreeDepth(T->rchild);    // 求右子树深度
-        
+
         return (LD >= RD ? LD : RD) + 1;
     }
 }
@@ -139,17 +139,17 @@ int BiTreeDepth(BiTree T) {
  */
 TElemType Value(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的指针
     p = EPtr(T, e);
-    
+
     // 如果没有找到元素e
-    if(p == NULL) {
+    if (p == NULL) {
         return '\0';
     } else {
         return p->data;
@@ -163,17 +163,17 @@ TElemType Value(BiTree T, TElemType e) {
  */
 Status Assign(BiTree T, TElemType e, TElemType value) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return ERROR;
     }
-    
+
     // 获取结点e的指针
     p = EPtr(T, e);
-    
+
     // 如果没有找到元素e
-    if(p == NULL) {
+    if (p == NULL) {
         return ERROR;
     } else {
         // 进行赋值
@@ -189,10 +189,10 @@ Status Assign(BiTree T, TElemType e, TElemType value) {
  */
 TElemType Root(BiTree T) {
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     return T->data;
 }
 
@@ -203,17 +203,17 @@ TElemType Root(BiTree T) {
  */
 TElemType Parent(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的双亲结点的指针
     p = PPtr(T, e);
-    
+
     // 如果没有找到元素e的双亲
-    if(p == NULL) {
+    if (p == NULL) {
         return '\0';
     } else {
         return p->data;
@@ -227,20 +227,20 @@ TElemType Parent(BiTree T, TElemType e) {
  */
 TElemType LeftChild(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的指针
     p = EPtr(T, e);
-    
+
     // 如果找到了元素e
-    if(p != NULL && p->lchild != NULL) {
+    if (p != NULL && p->lchild != NULL) {
         return p->lchild->data;
     }
-    
+
     return '\0';
 }
 
@@ -251,20 +251,20 @@ TElemType LeftChild(BiTree T, TElemType e) {
  */
 TElemType RightChild(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的指针
     p = EPtr(T, e);
-    
+
     // 如果找到了元素e
-    if(p != NULL && p->rchild != NULL) {
+    if (p != NULL && p->rchild != NULL) {
         return p->rchild->data;
     }
-    
+
     return '\0';
 }
 
@@ -275,20 +275,20 @@ TElemType RightChild(BiTree T, TElemType e) {
  */
 TElemType LeftSibling(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的双亲结点的指针
     p = PPtr(T, e);
-    
+
     // 如果找到了元素e的双亲
-    if(p != NULL && p->lchild != NULL) {
+    if (p != NULL && p->lchild != NULL) {
         return p->lchild->data;
     }
-    
+
     return '\0';
 }
 
@@ -299,20 +299,20 @@ TElemType LeftSibling(BiTree T, TElemType e) {
  */
 TElemType RightSibling(BiTree T, TElemType e) {
     BiTree p;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return '\0';
     }
-    
+
     // 获取结点e的双亲结点的指针
     p = PPtr(T, e);
-    
+
     // 如果找到了元素e的双亲
-    if(p != NULL && p->rchild != NULL) {
+    if (p != NULL && p->rchild != NULL) {
         return p->rchild->data;
     }
-    
+
     return '\0';
 }
 
@@ -325,37 +325,37 @@ TElemType RightSibling(BiTree T, TElemType e) {
  */
 Status InsertChild(BiTree T, TElemType p, int LR, BiTree c) {
     BiTree p_ptr;
-    
+
     // 如果待插入的树为空树则无需继续计算
-    if(BiTreeEmpty(c)) {
+    if (BiTreeEmpty(c)) {
         return ERROR;
     }
-    
+
     // 获取结点p的指针
     p_ptr = EPtr(T, p);
-    
+
     // 如果p结点不存在，则返回错误提示
-    if(p_ptr == NULL) {
+    if (p_ptr == NULL) {
         return ERROR;
     }
-    
+
     // 将c插入为p的左子树
-    if(LR==0) {
+    if (LR == 0) {
         // 如果p处存在左子树，则摘下p的左子树，插入为c的右子树
-        if(p_ptr->lchild!=NULL) {
+        if (p_ptr->lchild != NULL) {
             c->rchild = p_ptr->lchild;
         }
-        
+
         p_ptr->lchild = c;
     } else {
         // 如果p处存在右子树，则摘下p的右子树，插入为c的右子树
-        if(p_ptr->rchild!=NULL) {
+        if (p_ptr->rchild != NULL) {
             c->rchild = p_ptr->rchild;
         }
-    
+
         p_ptr->rchild = c;
     }
-    
+
     return OK;
 }
 
@@ -366,29 +366,29 @@ Status InsertChild(BiTree T, TElemType p, int LR, BiTree c) {
  */
 Status DeleteChild(BiTree T, TElemType p, int LR) {
     BiTree p_ptr;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         return ERROR;
     }
-    
+
     // 获取结点p的指针
     p_ptr = EPtr(T, p);
-    
+
     // 如果p结点不存在，则返回错误提示
-    if(p_ptr == NULL) {
+    if (p_ptr == NULL) {
         return ERROR;
     }
-    
+
     // 如果需要删除p的左子树
-    if(LR == 0) {
+    if (LR == 0) {
         ClearBiTree(&(p_ptr->lchild));
-        
+
         // 如果需要删除p的右子树
     } else {
         ClearBiTree(&(p_ptr->rchild));
     }
-    
+
     return OK;
 }
 
@@ -399,10 +399,10 @@ Status DeleteChild(BiTree T, TElemType p, int LR) {
  */
 Status PreOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
     Status status;
-    
+
     status = PreTraverse(T, Visit);
     printf("\n");
-    
+
     return status;
 }
 
@@ -411,10 +411,10 @@ Status PreOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
  */
 Status InOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
     Status status;
-    
+
     status = InTraverse(T, Visit);
     printf("\n");
-    
+
     return status;
 }
 
@@ -429,32 +429,32 @@ Status InOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
 Status InOrderTraverse_2(BiTree T, Status(Visit)(TElemType)) {
     SqStack S;
     BiTree p;
-    
+
     InitStack(&S);
     Push(&S, T);    // 根指针入栈
-    
-    while(!StackEmpty(S)) {
+
+    while (!StackEmpty(S)) {
         // 向左走到尽头
-        while(GetTop(S, &p) && p != NULL) {
+        while (GetTop(S, &p) && p != NULL) {
             Push(&S, p->lchild);
         }
-        
+
         Pop(&S, &p);    // 空指针退栈
-        
-        if(!StackEmpty(S)) {
+
+        if (!StackEmpty(S)) {
             // 访问结点
             Pop(&S, &p);
-            if(!Visit(p->data)) {
+            if (!Visit(p->data)) {
                 return ERROR;
             }
-            
+
             // 向右一步
             Push(&S, p->rchild);
         }
     }
-    
+
     printf("\n");
-    
+
     return OK;
 }
 
@@ -469,28 +469,28 @@ Status InOrderTraverse_2(BiTree T, Status(Visit)(TElemType)) {
 Status InOrderTraverse_3(BiTree T, Status(Visit)(TElemType)) {
     SqStack S;
     BiTree p;
-    
+
     InitStack(&S);
-    
+
     p = T;
-    
-    while(p != NULL || !StackEmpty(S)) {
-        if(p != NULL) {
+
+    while (p != NULL || !StackEmpty(S)) {
+        if (p != NULL) {
             Push(&S, p);    // 根指针进栈
             p = p->lchild;  // 遍历左子树
         } else {
             // 访问结点
             Pop(&S, &p);
-            if(!Visit(p->data)) {
+            if (!Visit(p->data)) {
                 return ERROR;
             }
-            
+
             p = p->rchild;
         }
     }
-    
+
     printf("\n");
-    
+
     return OK;
 }
 
@@ -499,10 +499,10 @@ Status InOrderTraverse_3(BiTree T, Status(Visit)(TElemType)) {
  */
 Status PostOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
     Status status;
-    
+
     status = PostTraverse(T, Visit);
     printf("\n");
-    
+
     return status;
 }
 
@@ -512,41 +512,41 @@ Status PostOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
 Status LevelOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
     LinkQueue Q;
     BiTree e;
-    
+
     // 二叉树为空
-    if(T == NULL) {
+    if (T == NULL) {
         printf("\n");
         return OK;
     }
-    
+
     // 借助队列实现层序遍历
     InitQueue(&Q);
-    
+
     // 根指针入队
     EnQueue(&Q, T);
-    
+
     // 一直循环，直到队列为空
-    while(!QueueEmpty(Q)) {
+    while (!QueueEmpty(Q)) {
         DeQueue(&Q, &e);
-        
+
         // 访问元素
-        if(!Visit(e->data)) {
+        if (!Visit(e->data)) {
             return ERROR;
         }
-        
+
         // 左孩子入队
-        if(e->lchild != NULL) {
+        if (e->lchild != NULL) {
             EnQueue(&Q, e->lchild);
         }
-        
+
         // 右孩子入队
-        if(e->rchild != NULL) {
+        if (e->rchild != NULL) {
             EnQueue(&Q, e->rchild);
         }
     }
-    
+
     printf("\n");
-    
+
     return OK;
 }
 
@@ -554,22 +554,22 @@ Status LevelOrderTraverse(BiTree T, Status(Visit)(TElemType)) {
 /*━━━━━━━━━━━━━━━━━━━━━━ 仅限内部使用的函数 ━━━━━━━━━━━━━━━━━━━━━━*/
 
 // 创建二叉树的内部函数
-static void CreateTree(BiTree* T, FILE* fp) {
+static void CreateTree(BiTree *T, FILE *fp) {
     char ch;
-    
+
     // 读取当前结点的值
-    if(fp == NULL) {
+    if (fp == NULL) {
         scanf("%c", &ch);
     } else {
         ReadData(fp, "%c", &ch);
     }
-    
-    if(ch == '^') {
+
+    if (ch == '^') {
         *T = NULL;
     } else {
         // 生成根结点
         *T = (BiTree) malloc(sizeof(BiTNode));
-        if(!(*T)) {
+        if (!(*T)) {
             exit(OVERFLOW);
         }
         (*T)->data = ch;
@@ -581,77 +581,77 @@ static void CreateTree(BiTree* T, FILE* fp) {
 // 返回指向二叉树结点e的指针
 static BiTree EPtr(BiTree T, TElemType e) {
     BiTree pl, pr;
-    
-    if(T == NULL) {
+
+    if (T == NULL) {
         return NULL;
     }
-    
+
     // 如果找到了目标结点，直接返回其指针
-    if(T->data == e) {
+    if (T->data == e) {
         return T;
     }
-    
+
     // 在左子树中查找e
     pl = EPtr(T->lchild, e);
-    if(pl != NULL) {
+    if (pl != NULL) {
         return pl;
     }
-    
+
     // 在右子树中查找e
     pr = EPtr(T->rchild, e);
-    if(pr != NULL) {
+    if (pr != NULL) {
         return pr;
     }
-    
+
     return NULL;
 }
 
 // 返回指向二叉树结点e的双亲结点的指针
 static BiTree PPtr(BiTree T, TElemType e) {
     BiTree pl, pr;
-    
-    if(T == NULL || T->data == e) {
+
+    if (T == NULL || T->data == e) {
         return NULL;
     }
-    
+
     // e是T的左孩子
-    if(T->lchild != NULL && T->lchild->data == e) {
+    if (T->lchild != NULL && T->lchild->data == e) {
         return T;
     }
-    
+
     // e是T的右孩子
-    if(T->rchild != NULL && T->rchild->data == e) {
+    if (T->rchild != NULL && T->rchild->data == e) {
         return T;
     }
-    
+
     // 在左子树中查找e
     pl = PPtr(T->lchild, e);
-    if(pl != NULL) {
+    if (pl != NULL) {
         return pl;
     }
-    
+
     // 在右子树中查找e
     pr = PPtr(T->rchild, e);
-    if(pr != NULL) {
+    if (pr != NULL) {
         return pr;
     }
-    
+
     return NULL;
 }
 
 // 先序遍历的内部实现
 static Status PreTraverse(BiTree T, Status(Visit)(TElemType)) {
-    if(T) {
-        if(Visit(T->data)) {
-            if(PreTraverse(T->lchild, Visit)) {
-                if(PreTraverse(T->rchild, Visit)) {
+    if (T) {
+        if (Visit(T->data)) {
+            if (PreTraverse(T->lchild, Visit)) {
+                if (PreTraverse(T->rchild, Visit)) {
                     return OK;
                 }
             }
         }
-        
+
         return ERROR;
-    
+
         // 遇到空树则无需继续计算
     } else {
         return OK;
@@ -660,17 +660,17 @@ static Status PreTraverse(BiTree T, Status(Visit)(TElemType)) {
 
 // 中序遍历的内部实现
 static Status InTraverse(BiTree T, Status(Visit)(TElemType)) {
-    if(T) {
-        if(InTraverse(T->lchild, Visit)) {
-            if(Visit(T->data)) {
-                if(InTraverse(T->rchild, Visit)) {
+    if (T) {
+        if (InTraverse(T->lchild, Visit)) {
+            if (Visit(T->data)) {
+                if (InTraverse(T->rchild, Visit)) {
                     return OK;
                 }
             }
         }
-        
+
         return ERROR;
-        
+
         // 遇到空树则无需继续计算
     } else {
         return OK;
@@ -679,17 +679,17 @@ static Status InTraverse(BiTree T, Status(Visit)(TElemType)) {
 
 // 后序遍历的内部实现
 static Status PostTraverse(BiTree T, Status(Visit)(TElemType)) {
-    if(T) {
-        if(PostTraverse(T->lchild, Visit)) {
-            if(PostTraverse(T->rchild, Visit)) {
-                if(Visit(T->data)) {
+    if (T) {
+        if (PostTraverse(T->lchild, Visit)) {
+            if (PostTraverse(T->rchild, Visit)) {
+                if (Visit(T->data)) {
                     return OK;
                 }
             }
         }
-        
+
         return ERROR;
-        
+
         // 遇到空树则无需继续计算
     } else {
         return OK;
@@ -700,67 +700,104 @@ static Status PostTraverse(BiTree T, Status(Visit)(TElemType)) {
 /*━━━━━━━━━━━━━━━━━━━━━━ 图形化输出 ━━━━━━━━━━━━━━━━━━━━━━*/
 
 // 以图形化形式输出当前结构，仅限内部测试使用
+//          总结点个数     元素个数     每个元素之间的空格数       首个元素之前的空格数
+// A            3           1               1                       1
+//B C           3           2               1                       0
+//
+//   A          7           1               3                       3
+// B   C        7           2               3                       1
+//D E F G       7           4               1                       0
+//
+//计算某层的字符总数:
+//  共 level 层，则第 level 层的字符(空格+字母)的总数为 2^level - 1，可以创建一个 3 x 8 的二维数组
+//
+//计算某层当前元素的个数:
+//  第 i 层 (从 0 开始) 元素的个数 =  2^i
+//
+//计算某层元素之间的空格数:
+//  总宽度(空格+字母的总个数)为 width(一旦确定就不再改变)，则该层元素之间的空格数 = width / 当前元素的个数
+//
+//计算某层首个元素之前的空格数
+//  因为完全二叉树第 i + 1 层的结点数是第 i 层的 2 倍，所以第 i + 1 层的元素之间的空格数是第 i 层的元素之间空格数的 1/2，而第 i 层元素之间的空格数的 1/2 正好是第 i 层首个元素之前的空格数
+//  所以第 i 层 (从 0 开始) 首个元素之前的空格数 = 第 i + 1 层的元素之间的空格数 = width / 第 i + 1 层元素的个数 = width / 2^(i + 1)
+//
+// 后边的元素都 != '\0'
+
 void PrintTree(BiTree T) {
     int level, width;
-    int i, j, k, w;
+    int i, j, k, w;                     //循环变量声明
     int begin;
     int distance;
-    TElemType** tmp;
+    TElemType **tmp;                    //tmp 是一个二维数组，用来存放元素和空白字符
     LinkQueue Q;
     BiTree e;
-    
+
     // 遇到空树则无需继续计算
-    if(BiTreeEmpty(T)) {
+    if (BiTreeEmpty(T)) {
         printf("\n");
         return;
     }
-    
-    level = BiTreeDepth(T);         // （完全）二叉树结构高度
-    width = (int)pow(2, level)-1;   // （完全）二叉树结构宽度
-    
+
+    level = BiTreeDepth(T);             //（完全）二叉树结构高度(即 level 层)
+    width = (int) pow(2, level) - 1;    //（完全）二叉树结构宽度(所有空白字符+字母)  //pow() 函数用来求 x 的 y 次幂（次方），其原型为：double pow(double x, double y);
+    printf("level = %d, width = %d \n",level,width);
+
+    //初始化二维数组 tmp，并且所有元素变为 '\0'
     // 动态创建行
-    tmp = (TElemType**)malloc(level* sizeof(TElemType*));
-    
+    tmp = (TElemType **) malloc(level * sizeof(TElemType *));
+
     // 动态创建列
-    for(i = 0; i < level; i++) {
-        tmp[i] = (TElemType*)malloc(width* sizeof(TElemType));
-        
+    for (i = 0; i < level; i++) {
+        tmp[i] = (TElemType *) malloc(width * sizeof(TElemType));
+
         // 初始化内存值为空字符
-        memset(tmp[i], '\0', width);
+        memset(tmp[i], '\0', width);    //memset(地址，值，字节数)，例如 memset(a,0,sizeof(a)/sizeof(char));
     }
-    
+
     // 借助队列实现层序遍历
     InitQueue(&Q);
     EnQueue(&Q, T);
-    
+
     // 遍历树中所有元素，将其安排到二维数组tmp中合适的位置
-    for(i = 0; i < level; i++) {
-        w        = (int) pow(2, i);             // 二叉树当前层的宽度
+    for (i = 0; i < level; i++) {
+        printf("i = %d \n",i);
+
+        w = (int) pow(2, i);                    // 二叉树当前层的宽度(当前层元素的个数), 因为 i 是从 0 开始的，所有 2^i 就是当前层元素的个数
+        printf("w = %d \n",w);
+
         distance = width / w;                   // 二叉树当前层的元素间隔
-        begin    = width / (int) pow(2, i + 1); // 二叉树当前层首个元素之前的空格数
-        
-        for(k = 0; k < w; k++) {
+        printf("distance = %d \n",distance);
+
+        printf("(int) pow(2, i + 1) = %d \n",(int) pow(2, i + 1));
+        begin = width / (int) pow(2, i + 1);    // 二叉树当前层首个元素之前的空格数  begin = width / 2^{i + 1}
+
+        printf("begin = %d \n\n",begin);
+
+        for (k = 0; k < w; k++) {
             DeQueue(&Q, &e);
-            
-            if(e == NULL) {
-                EnQueue(&Q, NULL);
-                EnQueue(&Q, NULL);
+
+            if (e == NULL) {
+//                EnQueue(&Q, NULL);            //这个放到队列里两个空元素有什么用?
+//                EnQueue(&Q, NULL);
             } else {
+                //填充二维数组 tmp 第 i 行第 j 列的数据
                 j = begin + k * (1 + distance);
                 tmp[i][j] = e->data;
-                
+
                 // 左孩子入队
                 EnQueue(&Q, e->lchild);
-                
+
                 // 右孩子入队
                 EnQueue(&Q, e->rchild);
             }
         }
     }
-    
-    for(i = 0; i < level; i++) {
-        for(j = 0; j < width; j++) {
-            if(tmp[i][j] != '\0') {
+
+    DestroyQueue(&Q);
+
+    for (i = 0; i < level; i++) {
+        for (j = 0; j < width; j++) {
+            if (tmp[i][j] != '\0') {
                 printf("%c", tmp[i][j]);
             } else {
                 printf(" ");

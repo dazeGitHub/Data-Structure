@@ -50,9 +50,12 @@ Status CreateBiTree(BiThrTree* T, char* path) {
  *
  * 中序遍历二叉树T，并将其全线索化为线索二叉树Thrt。
  * 注：这里的线索包括前驱线索与后继线索。
+ *
+ * 为方便起见，仿照线性表的存储结构，在二叉树的线索链表上也添加一个头结点，并令其 lChild 域的指针指向二叉树的根结点，其 rchild 域的指针指向中序遍历时访问的最后一个结点；
+ * 反之，令二叉树中序序列中的第一个结点的 lChild 域指针和最后一个结点 rchild 域的指针均指向头结点。
  */
 Status InOrderThreading(BiThrTree* Thrt, BiThrTree T) {
-    // 建立头结点
+    // 为线索二叉树 Thrt 建立头结点
     *Thrt = (BiThrTree) malloc(sizeof(BiThrNode));
     if(!*Thrt) {
         exit(OVERFLOW);
@@ -65,7 +68,7 @@ Status InOrderThreading(BiThrTree* Thrt, BiThrTree T) {
     
     (*Thrt)->rchild = *Thrt;
     
-    // 若二叉树为空，则左指针回指
+    // 若二叉树为空，则左指针回指(正好指向根结点)
     if(!T) {
         (*Thrt)->lchild = *Thrt;
     } else {
@@ -80,7 +83,6 @@ Status InOrderThreading(BiThrTree* Thrt, BiThrTree T) {
     }
     
     return OK;
-    
 }
 
 /*
@@ -89,6 +91,7 @@ Status InOrderThreading(BiThrTree* Thrt, BiThrTree T) {
  * 中序遍历中序全线索二叉树（非递归算法）。
  *
  * 注：该方法可以验证后继线索是否正确
+ *
  */
 Status InOrderTraverse_Thr(BiThrTree T, Status(Visit)(TElemType)) {
     BiThrTree p = T->lchild;    // p指向二叉树根结点（不同于线索二叉树的头结点）
@@ -188,7 +191,7 @@ static void InThreading(BiThrTree p) {
         pre->RTag = Link;
     }
     
-    pre = p;                // pre向前挪一步
+    pre = p;                 // pre向前挪一步
 
     InThreading(p->rchild);  // 线索化右子树
 }
